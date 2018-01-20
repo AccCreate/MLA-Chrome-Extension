@@ -1,0 +1,26 @@
+{
+    "manifest_version": 2,
+
+    "name": "Highlight Tool",
+    "description": "This save highlighted text.",
+    "version": "1.0",
+
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_title": "Save"
+    },
+
+    "background": {
+        "persistent": false,
+        "scripts": ["background.js"]
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["jquery-3.2.1.min.js", "content.js"]
+        }
+    ],
+
+    "permissions": ["activeTab"]
+}
