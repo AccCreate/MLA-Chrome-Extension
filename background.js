@@ -4,9 +4,13 @@ var highlights = {};
 
 // text = {html link, List of quotes}
 // A function to use as callback
-function report_citations(text) {
-    highlights[text[0]] = text[1];
-    alert(highlights[text[0]]);
+function report_citations(data) {
+	if (data["url"] in highlights) {
+		highlights[data["url"]].push(data["text"]);
+	} else {
+		highlights[data["url"]] = [data["text"]];
+	}
+	alert(highlights[data["url"]]);
 }
 
 // When the browser-action button is clicked...
