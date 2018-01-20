@@ -13,9 +13,8 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 	var url = window.location.href;
 
 	// MLA Date format: Day Month Year (5 May 2017)
-	var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-	var d = new Date();
-	var date = d.getDay() + " " + months[d.getMonth()] + " " + d.getFullYear();;
+	var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November
+	var date = new Date(date[, month, year);
 	
 	
 	
@@ -26,6 +25,6 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 	}
 
 	// Call the specified callback, passing
-	sendResponse({url: url, text: text, date: date});
+	sendResponse({url: url, text: text});
     }
 });
