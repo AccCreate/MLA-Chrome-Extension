@@ -1,6 +1,6 @@
 
 // keep track of messages
-var messages = [];
+// var messages = [];
 
 // Listen for messages
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 		}
 
 		// Call the specified callback, passing
-		messages.push(text);
-		sendResponse(messages);
+		// messages.push(text);
+		sendResponse(text);
 	}
 });

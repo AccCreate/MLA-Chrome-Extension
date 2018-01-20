@@ -1,8 +1,11 @@
 
+// Global highlights
+var highlights = [];
+
 // A function to use as callback
-function report_citations(urls) {
-	// console.log('I received the following DOM content:\n' + urls);
-	alert(urls);
+function report_citations(text) {
+	highlights.push(text);
+	alert(highlights);
 }
 
 // When the browser-action button is clicked...
