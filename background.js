@@ -1,11 +1,15 @@
 
 // Global highlights
-var highlights = [];
+var highlights = {};
 
+// text = {html link, List of quotes}
 // A function to use as callback
 function report_citations(text) {
-	highlights.push(text);
-	alert(highlights);
+    alert(highlights);
+    highlights.push({
+	key: text[0]
+	value: text[1]
+    });
 }
 
 // When the browser-action button is clicked...
