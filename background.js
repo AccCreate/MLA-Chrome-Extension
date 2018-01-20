@@ -5,11 +5,8 @@ var highlights = {};
 // text = {html link, List of quotes}
 // A function to use as callback
 function report_citations(text) {
-    highlights.push({
-	key: text[0]
-	value: text[1]
-    });
-    alert(highlights);
+    highlights[text[0]] = text[1];
+    alert(highlights[text[0]]);
 }
 
 // When the browser-action button is clicked...
