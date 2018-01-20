@@ -19,3 +19,11 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     // ...if it matches, send a message specifying a callback too
     chrome.tabs.sendMessage(tab.id, {text: 'ACK'}, report_citations);
 });
+
+chrome.commands.onCommand.addListener(function(command) {
+    if (command == "Ctrl+I"){
+	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, {text: 'ACK'}, report_citations);
+        });
+    }
+});
