@@ -12,18 +12,30 @@ function report_citations(data) {
 	highlights[data["url"]] = [data["text"]];
     }
     alert(highlights[data["url"]]);
+    alert("rip");
 }
+
 
 // When the browser-action button is clicked...
 chrome.browserAction.onClicked.addListener(function (tab) {
     // ...if it matches, send a message specifying a callback too
     chrome.tabs.sendMessage(tab.id, {text: 'ACK'}, report_citations);
+
+
+    // Get title of page. Titles generally are in format of "<title of article> - <company name>"
+    chrome.tabs.getSelected(null, function(tab){
+	alert(tab.title);
+	alert(tab.url);
+    });
+
+    alert("done");
 });
 
 chrome.commands.onCommand.addListener(function(command) {
     if (command == "Ctrl+I"){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {text: 'ACK'}, report_citations);
-        });
+	    chrome.tabs.sendMessage(tabs[0].id, {text: 'ACK'}, report_citations);
+	});
     }
 });
+
