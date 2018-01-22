@@ -72,23 +72,27 @@ function getArticleDate(docHeadHTML, docBodyHTML){
     // <p class="update-time">Updated 9:55 PM ET, Sun January 21, 2018
     // Finding from "class"
     
+
+    // {"@context":"http:\/\/schema.org","
     
     // <time datetime="2017-05-09T17:00:00+02:00" itemprop="datePublished">May 9, 2017</time>
     // <time datetime="2016-10-03T15:15:18.819Z">Oct 3, 2016</time>
     // Finding from "time" itself
-    var timeDateList = [];
+    var timeDateList = document.getElementsByTagName('time');
+    for(i = 0; i < timeDateList.length; i ++){
+	appendValidDate(timeDateList[i].innerHTML, validDateList, maxArticleDate);
+    }
     
     // Finding from any "meta" page
     // <meta name="DISPLAYDATE" content="Jan. 21, 2018" />
     // <meta name="dat" content="Jan. 21, 2018" />
     var metaDateList = [];
-    var dateList = document.querySelectorAll("meta[name*='dat' i");
+    dateList = document.querySelectorAll("meta[name*='dat' i");
     // alert(document.querySelector("meta[name='"+"dat"+"']").getAttribute('content'));
     for(i = 0; i < dateList.length; i ++){
 	if(dateList[i].getAttribute("content") != undefined){
 	    var tempDate = dateList[i].getAttribute("content");
-	    tempDate = tempDate.replace(/[&\/\\#+()$~%.'":*?<>{}]/g, '');
-	    tempDate = tempDate.trim();
+	    tempDate = (tempDate.replace(/[&\/\\#+()$~%.'":*?<>{}]/g, '')).trim();
 	    if (tempDate != ""){
 		metaDateList.push(dateList[i].getAttribute("content"));
 	    }
@@ -96,33 +100,22 @@ function getArticleDate(docHeadHTML, docBodyHTML){
 	}
     }
 
-    var regYYMMDD = /[1-2][0-9]{3}[0-1][0-9][0-3][0-9]/;
     for(i = 0; i < metaDateList.length; i ++){
-	if(regYYMMDD.test(metaDateList[i])){
-	    metaDateList[i] = metaDateList[i].replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3 '); 
-	}
-
-	var validDateCheck = new Date(metaDateList[i]);
-	if(validDateCheck instanceof Date && !isNaN(validDateCheck.valueOf())){
-	    if(maxArticleDate >= validDateCheck){
-		validDateCheck = (validDateCheck.toString()).replace(/(\w+)\s(\w+)\s(\d{2})\s(\d{4})\s(\d{2}:\d{2}:\d{2})\s(.*)/g, '$3 $2 $4');
-		validDateList.push(validDateCheck);
-	    }
-	}
-    }
-
-
+	appendValidDate(metaDateList[i], validDateList, maxArticleDate);
+    }	
+    
+    
     if(validDateList.length > 0){
 	return (articleDate = getMostFrequentElement(validDateList));
     } else {
 	return "N.a.";
-    }
- 
+    }	
+    
     // var str = "<meta name=\"dat\" content=\"Jan. 21, 2018\" />";
     // var newtext = str.replace(/(<meta name="[a-z]*dat[a-z]*") (content=")(.*?)(")/i, "$3");
     // var n = str.search(/<meta name="[a-z]*dat[a-z]*" content="(.*?)"/i);
     // document.getElementById("demo").innerHTML = newtext;
-}
+}	
 
 // https://stackoverflow.com/questions/1053843/get-the-element-with-the-highest-occurrence-in-an-array
 // Does not factor for ties
@@ -132,7 +125,7 @@ function getMostFrequentElement(array){
     var modeMap = {};
     var maxEl = array[0], maxCount = 1;
     for(var i = 0; i < array.length; i++)
-    {
+    {	
 	var el = array[i];
 	if(modeMap[el] == null)
 	    modeMap[el] = 1;
@@ -143,6 +136,24 @@ function getMostFrequentElement(array){
 	    maxEl = el;
 	    maxCount = modeMap[el];
 	}
-    }
+    }	
     return maxEl;
-}
+}	
+
+function appendValidDate(eachDate, validDateList, maxArticleDate){
+    // 2nd, 3rd, 4th, etc. for day that needs to be removed
+    eachDate = eachDate.replace(/(\d+)(st|nd|rd|th)/, "$1");
+
+    var regYYMMDD = /[1-2][0-9]{3}[0-1][0-9][0-3][0-9]/;
+    if(regYYMMDD.test(eachDate)){
+	eachDate = eachDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3 '); 
+    }
+
+    var validDateCheck = new Date(eachDate);
+    if(validDateCheck instanceof Date && !isNaN(validDateCheck.valueOf())){
+	if(maxArticleDate >= validDateCheck){
+	    validDateCheck = (validDateCheck.toString()).replace(/(\w+)\s(\w+)\s(\d{2})\s(\d{4})\s(\d{2}:\d{2}:\d{2})\s(.*)/g, '$3 $2 $4');
+	    validDateList.push(validDateCheck);
+	}
+    }
+}	
