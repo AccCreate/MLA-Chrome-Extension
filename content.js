@@ -18,6 +18,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 
 	var url = window.location.href;
 	var company = window.location.hostname;
+	alert(company);
 	// MLA Date format: Day Month Year (5 May 2017)
 	var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 	var d = new Date();
@@ -53,6 +54,8 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 });
 
 function getArticleDate(docHeadHTML, docBodyHTML){
+    // Might also have to use RSS
+    
     // Get date article was published
     var articleDate = "";
     var maxArticleDate = new Date(document.lastModified);
@@ -77,7 +80,7 @@ function getArticleDate(docHeadHTML, docBodyHTML){
     // <meta name="DISPLAYDATE" content="Jan. 21, 2018" />
     // <meta name="dat" content="Jan. 21, 2018" />
     var metaDateList = [];
-    dateList = document.querySelectorAll("meta[name*='dat' i");
+    var dateList = document.querySelectorAll("meta[name*='dat' i");
     // alert(document.querySelector("meta[name='"+"dat"+"']").getAttribute('content'));
     for(i = 0; i < dateList.length; i ++){
 	if(dateList[i].getAttribute("content") != undefined){
@@ -99,7 +102,6 @@ function getArticleDate(docHeadHTML, docBodyHTML){
 
 	var validDateCheck = new Date(metaDateList[i]);
 	if(validDateCheck instanceof Date && !isNaN(validDateCheck.valueOf())){
-		alert(validDateCheck);
 	    if(maxArticleDate >= validDateCheck){
 		validDateCheck = (validDateCheck.toString()).replace(/(\w+)\s(\w+)\s(\d{2})\s(\d{4})\s(\d{2}:\d{2}:\d{2})\s(.*)/g, '$3 $2 $4');
 		validDateList.push(validDateCheck);

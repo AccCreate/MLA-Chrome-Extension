@@ -12,7 +12,6 @@ function report_citations(data) {
 	highlights[data["url"]] = [data["text"]];
     }
     alert(highlights[data["url"]]);
-    alert("rip");
 }
 
 
@@ -25,10 +24,9 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     // Get title of page. Titles generally are in format of "<title of article> - <company name>"
     chrome.tabs.getSelected(null, function(tab){
 	alert(tab.title);
-	alert(tab.url);
+	// alert(tab.url);
     });
 
-    alert("done");
 });
 
 chrome.commands.onCommand.addListener(function(command) {
