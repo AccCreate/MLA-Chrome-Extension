@@ -118,6 +118,9 @@ function getArticleDate(){
     // Check if URL contains date if all else fails
     var numbersFromURL = window.location.href;
     numbersFromURL = numbersFromURL.match(/[0-9]+/g);
+    if(numbersFromURL == null){
+	numbersFromURL = 0;
+    }
     numbersFromURL = numbersFromURL.toString();
     // If it has something of a month, day, and year (8 integers) append it
     var tempNumbersFromURL = numbersFromURL.replace(new RegExp(',', 'g'), '');
@@ -160,7 +163,6 @@ function getMostFrequentElement(array){
 }	
 
 function appendValidDate(eachDate, validDateList, maxArticleDate){
-    
     // 2nd, 3rd, 4th, etc. for day that needs to be removed
     eachDate = eachDate.replace(/(\d+)(st|nd|rd|th)/, "$1");
 
