@@ -18,6 +18,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 
 	var url = window.location.href;
 	var company = window.location.hostname;
+	company = company.replace(/^(www\.)/,"");
 	alert(company);
 	// MLA Date format: Day Month Year (5 May 2017)
 	var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
@@ -73,6 +74,7 @@ function getArticleDate(docHeadHTML, docBodyHTML){
     
     
     // <time datetime="2017-05-09T17:00:00+02:00" itemprop="datePublished">May 9, 2017</time>
+    // <time datetime="2016-10-03T15:15:18.819Z">Oct 3, 2016</time>
     // Finding from "time" itself
     var timeDateList = [];
     
