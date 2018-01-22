@@ -40,7 +40,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 	// alert(author);
 	
 	// Get date of article
-	var articleDate = getArticleDate(docHeadHTML, docBodyHTML);
+	var articleDate = getArticleDate();
 	alert(articleDate);
 	
 	if (window.getSelection) {
@@ -54,7 +54,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     }
 });
 
-function getArticleDate(docHeadHTML, docBodyHTML){
+function getArticleDate(){
     // Might also have to use RSS
     
     // Get date article was published
@@ -82,7 +82,6 @@ function getArticleDate(docHeadHTML, docBodyHTML){
     for(i = 0; i < spanDateList.length; i++) {
 	appendValidDate(spanDateList[i], validDateList, maxArticleDate);
     }
-    
 
     // Finding from {"@context schema", etc. for mobile checking
     // {"@context":"http:\/\/schema.org","
@@ -109,13 +108,19 @@ function getArticleDate(docHeadHTML, docBodyHTML){
 	    if (tempDate != ""){
 		metaDateList.push(tempDate);
 	    }
-	    
 	}
     }
     for(i = 0; i < metaDateList.length; i ++){
 	appendValidDate(metaDateList[i], validDateList, maxArticleDate);
     }	
-    
+
+
+    // Check if URL contains date if all else fails
+    //window.location.href
+    var numbersFromURL = window.location.href;
+    numbersFromURL = numbersFromURL.match(/[0-9]+/g);
+    numbersFromURL = numbersFromURL.toString();
+    appendValidDate(numbersFromURL, validDateList, maxArticleDate);
     if(validDateList.length > 0){
 	return (articleDate = getMostFrequentElement(validDateList));
     } else {
@@ -157,13 +162,12 @@ function appendValidDate(eachDate, validDateList, maxArticleDate){
 
     // 2018-01-22T08:00-500. Remove "T" out in this case
     eachDate = eachDate.replace(/(\d+)(T|t)/, "$1 ");
-    var regYYMMDD = /[1-2][0-9]{3}[0-1][0-9][0-3][0-9]/;
 
     // Change to YY-MM-DD if YYMMDD
+    var regYYMMDD = /[1-2][0-9]{3}[0-1][0-9][0-3][0-9]/;
     if(regYYMMDD.test(eachDate)){
 	eachDate = eachDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3 '); 
     }
-
     // Check if Date valid. If it is, append it
     var validDateCheck = new Date(eachDate);
     if(validDateCheck instanceof Date && !isNaN(validDateCheck.valueOf())){
