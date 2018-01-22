@@ -124,7 +124,7 @@ function getArticleDate(){
     if(validDateList.length > 0){
 	return (articleDate = getMostFrequentElement(validDateList));
     } else {
-	return "N.a.";
+	return "n.d.";
     }	
     
     // var str = "<meta name=\"dat\" content=\"Jan. 21, 2018\" />";
