@@ -58,6 +58,8 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
 
         // Call the specified callback, passing
         sendResponse({url: url, text: text, date: date, company: company, title: title, publisher: publisher});
+    } else if (msg.text === "CLEAR") {
+        sendResponse("CLEAR");
     }
 });
 

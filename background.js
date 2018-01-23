@@ -5,6 +5,12 @@ var highlights = {};
 // text = {html link, List of quotes}
 // A function to use as callback
 function report_citations(data) {
+    if (data === "CLEAR") {
+        Object.keys(highlights).forEach(function(key) {
+            delete highlights[key];
+        });
+    }
+
     if (data["url"] in highlights)
         highlights[data["url"]].push(data["text"]);
     else
