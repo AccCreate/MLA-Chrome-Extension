@@ -20,9 +20,9 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 
 
     // Get title of page. Titles generally are in format of "<title of article> - <company name>"
-    chrome.tabs.getSelected(null, function(tab){
-    alert(tab.title);
-    // alert(tab.url);
+    chrome.tabs.getSelected(null, function(tab) {
+        alert(tab.title);
+        // alert(tab.url);
     });
 
 });

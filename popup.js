@@ -6,9 +6,15 @@
 // });
 
 $(document).ready(function(){
-	$("#helloWorld").click(function() {
-		// var text = window.getSelection().toString();
-		// alert(text);
-		alert("Hello World!")
-	})
-})
+	$("button#citations").click(function() {
+		alert("UNDER CONSTRUCTION!");
+	});
+
+	$("button#quotes").click(function() {
+		chrome.tabs.create({url: chrome.extension.getURL('quotes.html')});
+	});
+
+	$("button#clear").click(function() {
+		alert("Cleared!");
+	});
+});

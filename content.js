@@ -42,6 +42,13 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
         // Get date of article
         var articleDate = getArticleDate();
         alert(articleDate);
+
+        // Get title and publisher
+        var titleInfo = getTitle();
+        alert(titleInfo["title"]);
+        alert(titleInfo["publisher"]);
+        var title = titleInfo["title"];
+        var publisher = titleInfo["publisher"];
         
         if (window.getSelection) {
             text = window.getSelection().toString();
@@ -50,9 +57,27 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
         }
 
         // Call the specified callback, passing
-        sendResponse({url: url, text: text, date: date, company: company});
+        sendResponse({url: url, text: text, date: date, company: company, title: title, publisher: publisher});
     }
 });
+
+function getTitle() {
+    var content = document.getElementsByTagName("title")[0].innerHTML;
+
+    if (content.indexOf(" - ")) {
+        content = content.split(" - ");
+        var title = content[0];
+        var publisher = content[1];
+    } else if (content.indexOf(" | ")) {
+        content = content.split(" | ");
+        var title = content[0];
+        var publisher = content[1];
+    } else {
+        var title = content;
+        var publisher = "N/A";
+    }
+    return { "title": title, "publisher": publisher };
+}
 
 function getArticleDate() {
     // Might also have to use RSS
@@ -105,14 +130,14 @@ function getArticleDate() {
         if (dateList[i].getAttribute("content") != undefined) {
             var tempDate = dateList[i].getAttribute("content");
             tempDate = (tempDate.replace(/[&\/\\#+()$~%.'"*?<>{}]/g, '')).trim();
-            if (tempDate != ""){
+            if (tempDate != "") {
                 metaDateList.push(tempDate);
             }
         }
     }
     for (i = 0; i < metaDateList.length; i++) {
         appendValidDate(metaDateList[i], validDateList, maxArticleDate);
-    }   
+    }
 
 
     // Check if URL contains date if all else fails
@@ -158,7 +183,7 @@ function getMostFrequentElement(array) {
         }
     }   
     return maxEl;
-}   
+}
 
 function appendValidDate(eachDate, validDateList, maxArticleDate) {
     // 2nd, 3rd, 4th, etc. for day that needs to be removed
@@ -180,4 +205,4 @@ function appendValidDate(eachDate, validDateList, maxArticleDate) {
             validDateList.push(validDateCheck);
         }
     }
-}   
+}
