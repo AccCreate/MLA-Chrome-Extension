@@ -59,20 +59,12 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     chrome.tabs.sendMessage(tab.id, {text: 'ACK'}, report_citations);
 
 
-    // // Save it using the Chrome extension storage API.
-    // chrome.storage.sync.set(highlights, function() {
-    //     alert('Settings saved');
-    // });
-
-
     // Read it using the storage API
     // null = all keys
     chrome.storage.sync.get(null, function(items) {
         var allKeys = Object.keys(items);
-        // alert(allKeys.length);
         for(i = 0; i < allKeys.length; i++){
-            // alert(allKeys[i]);
-            alert(items[allKeys[i]].join("\n"));
+            // alert(items[allKeys[i]].join("\n"));
         }
     });
 
@@ -86,6 +78,7 @@ chrome.commands.onCommand.addListener(function(command) {
         });
     }
 
+    // NOT WORKING YET
     // Clear local storage
     if (command == "Ctrl+Shift+K"){
         chrome.storage.local.clear();

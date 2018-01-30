@@ -25,7 +25,7 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
         var articleDate = getArticleDate();
         // alert(articleDate);
         var authors = getAuthor();
-        // alert(authors);
+        alert(authors);
 
         // Get title and publisher
         var titleInfo = getTitle();
@@ -65,26 +65,26 @@ function getTitle() {
     return { "title": title, "publisher": publisher };
 }
 function getAuthor(){
-   /* var author_names = "";
-    var authorList = document.querySelectorAll('[class*="author" i]');
-    for (i = 0; i < authorList.length; i++) {
+    /* var author_names = "";
+       var authorList = document.querySelectorAll('[class*="author" i]');
+       for (i = 0; i < authorList.length; i++) {
        author_names += authorList[i].innerText;
 
-    } */
+       } */
 
     var author_names = "";
     //var authorlist = [];
     if(document.head.querySelector("[name=author]") != null){
-    info = document.head.querySelector("[name=author]").content;
+        info = document.head.querySelector("[name=author]").content;
 
-    for (var i=0;i<info.length;i++) {
-        author_names += info[i];
-
-
-}  }
+        for (var i=0;i<info.length;i++) {
+            author_names += info[i];
 
 
-return author_names;
+        }  }
+
+
+    return author_names;
 }
 
 function getArticleDate() {
