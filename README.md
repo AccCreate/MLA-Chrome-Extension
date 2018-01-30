@@ -1,6 +1,6 @@
 # MLA-Chrome Extension
 
-Example chrome extension. Alerts "Hello world".
+A chrome extension that takes highlighted quotes and stores it in the local storage. The user can then access the stored quotes and its auto-generated MLA.
 
 ## manifest.json
 
