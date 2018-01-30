@@ -1,4 +1,3 @@
-
 // keep track of messages
 // var messages = [];
 
@@ -6,9 +5,6 @@
 chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
     // If the received message has the expected format...
     if (msg.text === 'ACK') {
-        var docHeadHTML = document.head.innerHTML;
-        var docBodyHTML = document.body.innerHTML;
-
         // NOTE: Getting tags through "getElementByTagName" fails at large HTML files
         // After around 125 metas, it stops finding more so DO NOT use this.
         // var allMETATag = document.getElementsByTagName("meta");
@@ -19,39 +15,25 @@ chrome.runtime.onMessage.addListener(function (msg, sender, sendResponse) {
         var url = window.location.href;
         var company = window.location.hostname;
         company = company.replace(/^(www\.)/,"");
-        alert(company);
+        // alert(company);
         // MLA Date format: Day Month Year (5 May 2017)
         var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
         var d = new Date();
         var date = d.getDay() + " " + months[d.getMonth()] + " " + d.getFullYear();;
-        
 
-        // itemprop="author" or itemprop="name"
-        // var author = "";
-        // var other = document.getElementsByTagName('li');
-        // alert(document.body.innerHTML);
-        // for (var i=0;i<other.length;i++) {
-        //     alert(other[i].innerHTML);
-        //     if (other[i].className.toLowerCase()=='author'){
-        //  author=other[i].getElementsByTagName('a')[0].innerHTML;
-
-        //     }
-        // }
-        // alert(author);
-        
         // Get date of article
         var articleDate = getArticleDate();
-        alert(articleDate);
+        // alert(articleDate);
         var authors = getAuthor();
-        alert(authors);
+        // alert(authors);
 
         // Get title and publisher
         var titleInfo = getTitle();
-        alert(titleInfo["title"]);
-        alert(titleInfo["publisher"]);
+        // alert(titleInfo["title"]);
+        // alert(titleInfo["publisher"]);
         var title = titleInfo["title"];
         var publisher = titleInfo["publisher"];
-        
+
         if (window.getSelection) {
             text = window.getSelection().toString();
         } else if (document.selection && document.selection.type != "Control") {
@@ -89,16 +71,16 @@ function getAuthor(){
        author_names += authorList[i].innerText;
 
     } */
-   
+
     var author_names = "";
     //var authorlist = [];
     if(document.head.querySelector("[name=author]") != null){
     info = document.head.querySelector("[name=author]").content;
-    
+
     for (var i=0;i<info.length;i++) {
         author_names += info[i];
-  
-  
+
+
 }  }
 
 
@@ -107,7 +89,7 @@ return author_names;
 
 function getArticleDate() {
     // Might also have to use RSS
-    
+
     // Get date article was published
     var articleDate = "";
     var maxArticleDate = new Date(document.lastModified);
@@ -145,7 +127,7 @@ function getArticleDate() {
     for (i = 0; i < timeDateList.length; i++) {
         appendValidDate(timeDateList[i].innerHTML, validDateList, maxArticleDate);
     }
-    
+
     // Finding from any "meta" page
     // <meta name="DISPLAYDATE" content="Jan. 21, 2018" />
     // <meta name="dat" content="Jan. 21, 2018" />
@@ -182,13 +164,13 @@ function getArticleDate() {
         return (articleDate = getMostFrequentElement(validDateList));
     } else {
         return "n.d.";
-    }   
-    
+    }
+
     // var str = "<meta name=\"dat\" content=\"Jan. 21, 2018\" />";
     // var newtext = str.replace(/(<meta name="[a-z]*dat[a-z]*") (content=")(.*?)(")/i, "$3");
     // var n = str.search(/<meta name="[a-z]*dat[a-z]*" content="(.*?)"/i);
     // document.getElementById("demo").innerHTML = newtext;
-}   
+}
 
 // https://stackoverflow.com/questions/1053843/get-the-element-with-the-highest-occurrence-in-an-array
 // Does not factor for ties
@@ -197,17 +179,17 @@ function getMostFrequentElement(array) {
         return null;
     var modeMap = {};
     var maxEl = array[0], maxCount = 1;
-    for (var i = 0; i < array.length; i++) {   
+    for (var i = 0; i < array.length; i++) {
         var el = array[i];
         if(modeMap[el] == null)
             modeMap[el] = 1;
         else
-            modeMap[el]++;  
+            modeMap[el]++;
         if (modeMap[el] > maxCount) {
             maxEl = el;
             maxCount = modeMap[el];
         }
-    }   
+    }
     return maxEl;
 }
 
@@ -221,7 +203,7 @@ function appendValidDate(eachDate, validDateList, maxArticleDate) {
     // Change to YY-MM-DD if YYMMDD
     var regYYMMDD = /[1-2][0-9]{3}[0-1][0-9][0-3][0-9]/;
     if (regYYMMDD.test(eachDate)) {
-        eachDate = eachDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3 '); 
+        eachDate = eachDate.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3 ');
     }
     // Check if Date valid. If it is, append it
     var validDateCheck = new Date(eachDate);

@@ -22,10 +22,17 @@
                 "mac": "Command+I"
             },
             "description": "Ctrl+I for highlighting selected text."
+        },
+        "Ctrl+Shift+K": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+K",
+                "mac": "Command+Shift+K"
+            },
+            "description": "Ctrl+Shift+K for clearing local storage."
         }
     },
 
-    
+
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
@@ -33,5 +40,8 @@
         }
     ],
 
-    "permissions": ["activeTab"]
+    "permissions": [
+        "activeTab",
+        "storage"
+    ]
 }
